@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { auth, firebase } from '../services/firebase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLoading } from '../hooks/useLoading';
+
 
 export const AuthContext = createContext({} as AuthContextRype);
 
@@ -25,12 +26,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const [user, setUser] = useState<User>();
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
+    const location = useLocation();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             showLoading();
             if (user) {
-                console.log('entrou')
                 const { displayName, photoURL, uid } = user;
 
                 if (!displayName || !photoURL) {
@@ -42,7 +43,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                     name: displayName,
                     avatar: photoURL
                 });
-                navigate('/home');
+                console.log(location)
+                navigate(location.pathname);
             } else {
                 navigate('/login');
             }

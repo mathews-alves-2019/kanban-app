@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material';
-import { typography } from '../utils';
+import { typography, shape } from '../utils';
 
 const themeOptions = {
     palette: {
@@ -24,6 +24,7 @@ const themeOptions = {
         },
     },
     typography,
+    shape
 }
 
 export const DarkTheme = createTheme(themeOptions);

@@ -10,6 +10,10 @@ export function pxToRem(value: number) {
 
 const FONT_PRIMARY = 'Public Sans, sans-serif';
 
+export const shape = {
+    borderRadius: 20,
+}
+
 export const typography = {
     fontFamily: FONT_PRIMARY,
     fontWeightRegular: 400,

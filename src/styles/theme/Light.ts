@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material';
-import { typography } from '../utils';
+import { typography, shape } from '../utils';
 
 export const LightTheme = createTheme({
     palette: {
@@ -20,5 +20,6 @@ export const LightTheme = createTheme({
             paper: '#ffffff',
         }
     },
-    typography
+    typography,
+    shape
 });
