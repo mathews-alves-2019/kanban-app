@@ -13,7 +13,7 @@ export function LoginForm({ handleSubmit, handleChangeForm, handlePasswordRecove
     return (
         <>
             <SignSignUpFormHeader labelText="Sign in" />
-            <Box component="form" noValidate onSubmit={ handleSubmit } sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                     color='primary'
                     margin="normal"
@@ -53,19 +53,24 @@ export function LoginForm({ handleSubmit, handleChangeForm, handlePasswordRecove
                 <Divider>Or</Divider>
                 <Button variant="contained" startIcon={<GoogleIcon />}
                     fullWidth
-                    onClick={ handleLogin }
-                    sx={{ mt: 3, mb: 2, backgroundColor: '#ea4335' }}
+                    onClick={handleLogin}
+                    sx={{
+                        mt: 3, mb: 2, backgroundColor: '#ea4335', 
+                        '&:hover': {
+                            backgroundColor: "#CD3A2E",
+                        },
+                    }}
                 >
                     Login with Google
                 </Button>
                 <Grid container>
                     <Grid item xs>
-                        <Link href="#" variant="body2" onClick={ handlePasswordRecover }>
+                        <Link href="#" variant="body2" onClick={handlePasswordRecover}>
                             Forgot password?
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link href="#" onClick={ handleChangeForm } variant="body2">
+                        <Link href="#" onClick={handleChangeForm} variant="body2">
                             {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>

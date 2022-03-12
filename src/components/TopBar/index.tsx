@@ -1,15 +1,15 @@
-import { Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery } from "@mui/material";
+import { Avatar, Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import { useState } from "react";
 import { MenuAccountOptions } from "../MenuAccountOptions";
+import { useAuth } from "../../hooks/useAuth";
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -96,6 +96,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
+    const { user }= useAuth();
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -155,7 +156,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <Avatar alt={ user?.name } src={user?.avatar} sx={{ width: '1.7em', height: '1.7em' }}/>
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }} >
@@ -178,7 +179,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
                                 aria-haspopup="true"
                                 color="inherit"
                             >
-                                <AccountCircle />
+                                <Avatar alt={ user?.name } src={user?.avatar} />
                             </IconButton>
                         </MenuItem>
                     </Box>

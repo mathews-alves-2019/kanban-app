@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Account } from '../pages/Account';
 import { Home } from '../pages/Home';
 import { Login } from '../pages/Login';
 import { PrivateRoute } from './PrivateRoute';
@@ -12,9 +13,10 @@ export function AppRoutes() {
                 <Route path="/boards" element={ <Link to="/">boards</Link> }/>
                 <Route path="/squad" element={ <Link to="/">squad</Link> }/>
                 <Route path="/reports" element={ <Link to="/">reports</Link> }/>
+                <Route path="/account" element={ <Account /> }/>
             </Route>
 
-            <Route path="*" element={ <Navigate to="/login"/> } />
+            <Route path="*" element={ <Navigate to="/"/> } />
         </Routes>
     );
 }

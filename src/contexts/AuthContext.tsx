@@ -10,6 +10,9 @@ type User = {
     id: string;
     name: string;
     avatar: string;
+    email: string | null;
+    isLoggedByGoogle: boolean;
+    position: string
 }
 
 type AuthContextRype = {
@@ -33,7 +36,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         const unsubscribe = auth.onAuthStateChanged(user => {
             showLoading();
             if (user) {
-                const { displayName, photoURL, uid } = user;
+                const { displayName, photoURL, uid, email } = user;
 
                 if (!displayName || !photoURL) {
                     throw new Error('Missing information from google account.');
@@ -42,7 +45,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 setUser({
                     id: uid,
                     name: displayName,
-                    avatar: photoURL
+                    avatar: photoURL,
+                    email: email,
+                    isLoggedByGoogle: true,
+                    position: 'Desenvolvedor'
                 });
                 navigate(location.pathname === '/login' ? '/' : location.pathname);
             } else {
@@ -77,7 +83,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         const result = await auth.signInWithPopup(provider);
 
         if (result.user) {
-            const { displayName, photoURL, uid } = result.user;
+            const { displayName, photoURL, uid, email } = result.user;
 
             if (!displayName || !photoURL) {
                 throw new Error('Missing information from google account.');
@@ -86,7 +92,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             setUser({
                 id: uid,
                 name: displayName,
-                avatar: photoURL
+                avatar: photoURL,
+                email: email,
+                isLoggedByGoogle: true,
+                position: 'Desenvolvedor'
             })
         }
     }

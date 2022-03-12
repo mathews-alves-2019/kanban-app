@@ -1,15 +1,23 @@
-import { Menu, MenuItem } from "@mui/material";
+import { ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Logout from '@mui/icons-material/Logout';
+import { useNavigate } from "react-router-dom";
 
 type MenuAccountOptionsProps = {
     anchorEl: null | HTMLElement;
     menuId: string;
-    setAnchorEl : (value: null | HTMLElement) => void;
+    setAnchorEl: (value: null | HTMLElement) => void;
     isMenuOpen: boolean;
 }
 
 export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }: MenuAccountOptionsProps) {
     const auth = useAuth();
+    const navigate = useNavigate();
+
+    const handleAccountPage = () => {
+        navigate('/account')
+    };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -21,6 +29,11 @@ export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }
 
     return (
         <Menu
+            PaperProps={{
+                style: {
+                    width: 170,
+                },
+            }}
             sx={{ mt: '40px' }}
             anchorEl={anchorEl}
             anchorOrigin={{
@@ -36,9 +49,18 @@ export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={handleLogOut}>Logoff</MenuItem>
+            <MenuItem onClick={handleAccountPage} >
+                <ListItemIcon>
+                    <AccountCircle />
+                </ListItemIcon>
+                <ListItemText>My account</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={handleLogOut}>
+                <ListItemIcon>
+                    <Logout />
+                </ListItemIcon>
+                <ListItemText>Logoff</ListItemText>
+            </MenuItem>
         </Menu>
     );
 }

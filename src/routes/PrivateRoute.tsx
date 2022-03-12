@@ -12,9 +12,7 @@ export function PrivateRoute() {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
     const wrapperRef = useRef(null);
-    const mdDown = useMediaQuery(theme.breakpoints.down('md'))
-    const xsDown = useMediaQuery(theme.breakpoints.down('xs'))
-    const lgDown = useMediaQuery(theme.breakpoints.down('lg'))
+    const mdDown = useMediaQuery(theme.breakpoints.down('md'));
     
     const handleClickOutside = (event: Event, ref: any, isSmDown: boolean) => {
         if (ref.current && !ref.current.contains(event.target) && open && isSmDown) {
