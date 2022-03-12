@@ -1,4 +1,5 @@
 import { Menu, MenuItem } from "@mui/material";
+import { useAuth } from "../../hooks/useAuth";
 
 type MenuAccountOptionsProps = {
     anchorEl: null | HTMLElement;
@@ -8,30 +9,36 @@ type MenuAccountOptionsProps = {
 }
 
 export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }: MenuAccountOptionsProps) {
+    const auth = useAuth();
 
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
 
+    function handleLogOut() {
+        auth.logout();
+    }
+
     return (
         <Menu
-            sx={{ mt: '45px' }}
+            sx={{ mt: '40px' }}
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'left',
             }}
             id={menuId}
             keepMounted
             transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'left',
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogOut}>Logoff</MenuItem>
         </Menu>
     );
 }

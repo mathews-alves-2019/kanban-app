@@ -15,6 +15,7 @@ type User = {
 type AuthContextRype = {
     user: User | undefined;
     signInWithGoogle: () => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 type AuthContextProviderProps = {
@@ -43,8 +44,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                     name: displayName,
                     avatar: photoURL
                 });
-                console.log(location)
-                navigate(location.pathname);
+                navigate(location.pathname === '/login' ? '/' : location.pathname);
             } else {
                 navigate('/login');
             }
@@ -56,7 +56,20 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         return () => {
             unsubscribe();
         }
-    }, [])
+    }, []);
+
+    async function logout() {
+        await firebase.auth().signOut().then(() => {
+            navigate('/login');
+        }).catch(error => {
+            console.error(error);
+            Object.keys(localStorage).forEach(key => {
+                if (key.indexOf('firebase') !== -1) {
+                    localStorage.removeItem(key);
+                }
+            });
+        });
+    }
 
     async function signInWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -79,7 +92,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, signInWithGoogle }}>
+        <AuthContext.Provider value={{ user, signInWithGoogle, logout }}>
             {props.children}
         </AuthContext.Provider>
     );

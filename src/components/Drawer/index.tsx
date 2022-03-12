@@ -1,11 +1,11 @@
 import MuiDrawer from '@mui/material/Drawer';
-import { styled, useTheme, Theme, CSSObject, makeStyles } from '@mui/material/styles';
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Divider, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Divider, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useSideBar } from '../../hooks/useSideBar';
 
 const drawerWidth = 240;
 
@@ -64,6 +64,13 @@ type SideBarProps = {
 
 export function SideBar({ open, handleDrawerClose, wrapperRef }: SideBarProps) {
     const theme = useTheme();
+    const { itens, activatedKey, setActivatedKey } = useSideBar();
+    const navigate = useNavigate();
+
+    function handleNavigate(path: string, key: string) {
+        navigate(path);
+        setActivatedKey(key);
+    }
 
     return (
         <Drawer variant="permanent" open={open} ref={wrapperRef} >
@@ -73,14 +80,20 @@ export function SideBar({ open, handleDrawerClose, wrapperRef }: SideBarProps) {
                 </IconButton>
             </DrawerHeader>
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItemButton
-                        key={text}
+            <List sx={{pt: 0}}>
+                {itens.map((item: any) => (
+                    <ListItemButton selected={activatedKey === item.key}
+                        key={ item.key }
+                        onClick={ () => handleNavigate(item.path, item.key) }
                         sx={{
+                            pt: 2,
+                            pb: 2,
                             minHeight: 48,
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
+                            '&:hover': {
+                                backgroundColor: "#E8F4F9",
+                            },
                         }}
                     >
                         <ListItemIcon
@@ -90,9 +103,9 @@ export function SideBar({ open, handleDrawerClose, wrapperRef }: SideBarProps) {
                                 justifyContent: 'center',
                             }}
                         >
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            { item.icon } 
                         </ListItemIcon>
-                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                        <ListItemText primary={ item.text } sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                 ))}
             </List>

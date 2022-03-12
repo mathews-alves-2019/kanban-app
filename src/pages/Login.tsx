@@ -19,7 +19,7 @@ export function Login() {
     const { toggleTheme } = useAppThemeContext();
     const [isLogin, setIsLogin] = useState(true);
     const [isPassowrdRecover, setIsPassowrdRecover] = useState(false);
-    const { loading, hideLoading } = useLoading();
+    const { loading, hideLoading, showLoading } = useLoading();
 
     const handleChangeForm = () => {
         setIsPassowrdRecover(false);
@@ -35,7 +35,11 @@ export function Login() {
         if (!user) {
             await signInWithGoogle();
         }
-        navigate('/home');
+        showLoading();
+        setTimeout(() => {
+            navigate('/');
+            hideLoading();
+        }, 300);
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

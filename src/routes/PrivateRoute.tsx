@@ -1,8 +1,9 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Grid, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { SideBar } from '../components/Drawer';
 import { TopBar } from '../components/TopBar';
+import { SideBarContext } from '../contexts';
 import { useAuth } from '../hooks/useAuth';
 
 export function PrivateRoute() {
@@ -11,7 +12,10 @@ export function PrivateRoute() {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
     const wrapperRef = useRef(null);
-
+    const mdDown = useMediaQuery(theme.breakpoints.down('md'))
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'))
+    const lgDown = useMediaQuery(theme.breakpoints.down('lg'))
+    
     const handleClickOutside = (event: Event, ref: any, isSmDown: boolean) => {
         if (ref.current && !ref.current.contains(event.target) && open && isSmDown) {
             setOpen(false);
@@ -19,11 +23,12 @@ export function PrivateRoute() {
     };
 
     useEffect(() => {
-        if(smDown) {
-            document.addEventListener("mousedown", (event) => handleClickOutside(event, wrapperRef, smDown), true);
+
+        if (smDown || mdDown) {
+            document.addEventListener("mousedown", (event) => handleClickOutside(event, wrapperRef, smDown || mdDown), true);
             setOpen(false);
         }
-    }, [smDown])
+    }, [smDown, mdDown])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -34,10 +39,26 @@ export function PrivateRoute() {
     };
 
     return user ? (
-        <Grid>
-            <TopBar open={ open } handleDrawerOpen={ handleDrawerOpen } smDown={ smDown }/>
-            <SideBar open={ open } handleDrawerClose={ handleDrawerClose } wrapperRef={ wrapperRef }/>
-            <Outlet />
-        </Grid>
+        <Box sx={{ display: 'flex' }}>
+            <SideBarContext>
+                <TopBar open={open} handleDrawerOpen={handleDrawerOpen} smDown={smDown} mdDown={mdDown} />
+                <SideBar open={open} handleDrawerClose={handleDrawerClose} wrapperRef={wrapperRef} />
+                <Box component="main"
+                    sx={{
+                        flexGrow: 1,
+                        height: '100vh',
+                        width: '100vw',
+                        overflow: 'auto',
+                    }} >
+                    <Toolbar />
+                    <Container >
+                        <Grid container spacing={1} sx={{ width: '100%', height: '100%', mt: '10px', ml: '10px' }}>
+                            <Outlet />
+                        </Grid>
+                    </Container>
+                </Box>
+            </SideBarContext>
+
+        </Box >
     ) : <Navigate to="/login" />;
 }

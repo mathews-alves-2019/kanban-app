@@ -50,6 +50,9 @@ const Search = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
         width: 'auto',
     },
+    [theme.breakpoints.down('md')]: {
+        width: '40ch',
+    },
     [theme.breakpoints.up('xs')]: {
         width: 'auto',
     },
@@ -86,9 +89,10 @@ type TopBarProps = {
     handleDrawerOpen: () => void,
     open: boolean,
     smDown: boolean,
+    mdDown: boolean
 }
 
-export function TopBar({ handleDrawerOpen, open, smDown }: TopBarProps) {
+export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -107,7 +111,7 @@ export function TopBar({ handleDrawerOpen, open, smDown }: TopBarProps) {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={ handleDrawerOpen }
+                        onClick={handleDrawerOpen}
                         sx={{ mr: 2, ...(open && { display: 'none' }), }}
                     >
                         <MenuIcon />
@@ -116,11 +120,11 @@ export function TopBar({ handleDrawerOpen, open, smDown }: TopBarProps) {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'contents' }, }}
+                        sx={{ display: mdDown ? 'none' : { xs: 'none', sm: 'contents' }, }}
                     >
-                        teste etxto
+                        icone aqui
                     </Typography>
-                    <div style={{ display: smDown && open ? 'none' : 'flex', justifyContent: 'center', width: '70%', }}>
+                    <div style={{ display: (smDown || mdDown) && open ? 'none' : 'flex', justifyContent: 'center', width: '70%', }}>
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />

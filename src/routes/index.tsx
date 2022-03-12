@@ -9,7 +9,9 @@ export function AppRoutes() {
             <Route path="/login" element={ <Login /> }/>
             <Route path="/" element={ <PrivateRoute /> }>
                 <Route path="/" element={ <Home /> } />
-                <Route path="/teste" element={ <Link to="/">home</Link> }/>
+                <Route path="/boards" element={ <Link to="/">boards</Link> }/>
+                <Route path="/squad" element={ <Link to="/">squad</Link> }/>
+                <Route path="/reports" element={ <Link to="/">reports</Link> }/>
             </Route>
 
             <Route path="*" element={ <Navigate to="/login"/> } />
