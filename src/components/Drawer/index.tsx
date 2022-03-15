@@ -91,9 +91,6 @@ export function SideBar({ open, handleDrawerClose, wrapperRef }: SideBarProps) {
                             minHeight: 48,
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
-                            '&:hover': {
-                                backgroundColor: "#E8F4F9",
-                            },
                         }}
                     >
                         <ListItemIcon

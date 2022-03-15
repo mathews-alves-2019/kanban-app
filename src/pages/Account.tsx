@@ -2,6 +2,9 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Tab, Tabs, T
 import { useState } from "react";
 import { styled } from '@mui/material/styles';
 import { useAuth } from "../hooks/useAuth";
+import { BasicDetailsCard } from "../components/Cards/BasicDetailsCard";
+import { DeleteAccountCard } from "../components/Cards";
+import { TeamCard } from "../components/Cards/TeamCard";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -13,14 +16,13 @@ interface StyledTabProps {
     label: string;
 }
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    width: "100%",
-    height: '0.4375em',
-}));
-
 const NoneTransformTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} />)(
     ({ theme }) => ({
         textTransform: 'none',
+        color: theme.palette.secondary.main,
+        '&.Mui-selected': {
+            color: theme.palette.secondary.dark,
+        }, 
     }),
 );
 
@@ -61,7 +63,6 @@ export function Account() {
     const [value, setValue] = useState(0);
     const { user } = useAuth();
     const theme = useTheme();
-    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -79,33 +80,11 @@ export function Account() {
             </Box>
             <Box >
                 <TabPanel value={value} index={0} >
-                    <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                            <Grid container spacing={1}>
-                                <Grid item xs={12} lg={3} md={4} sx={{ marginTop: 2, }}>
-                                    <Typography variant="h6" component="span">Basic details</Typography>
-                                </Grid>
-                                <Grid item xs={12} lg={9} md={8} sx={{ paddingLeft: smDown ? 1 : 5, paddingRight: smDown ? 1 : 10, display: 'flex', flexDirection: 'column', height: '220px' }}>
-                                        <Box sx={{ marginTop: 2, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                                            <Avatar alt={ user?.name } src={user?.avatar} sx={{ width: '3em', height: '3em' }}/>
-                                            <Typography variant="subtitle1" component="span" sx={{ marginLeft: 2 }}>{ user?.position }</Typography>
-                                        </Box>
-                                        <Box sx={{ marginTop: 2 }}>
-                                            <StyledTextField id="user-name" label="Name" variant="outlined" defaultValue={user?.name} disabled />
-                                        </Box>
-                                        <Box sx={{ marginTop: 6 }}>
-                                            <StyledTextField id="user-email" label="Email" variant="outlined" defaultValue={user?.email} disabled />
-                                        </Box>
-                                </Grid>
-                            </Grid>
-                        </CardContent>
-                        <CardActions sx={{ justifyContent: 'right', display: 'flex', paddingLeft: 5, paddingRight: smDown ? 3 : 12, paddingBottom: 2.5}}>
-                            <Button variant="contained" size="small" disabled={ user?.isLoggedByGoogle }>Salvar</Button>
-                        </CardActions>
-                    </Card>
+                    <BasicDetailsCard />
+                    <DeleteAccountCard />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <TeamCard />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three

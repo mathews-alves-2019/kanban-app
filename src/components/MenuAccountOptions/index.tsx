@@ -16,7 +16,8 @@ export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }
     const navigate = useNavigate();
 
     const handleAccountPage = () => {
-        navigate('/account')
+        handleMenuClose();
+        navigate('/account');
     };
 
     const handleMenuClose = () => {
@@ -51,13 +52,13 @@ export function MenuAccountOptions({ anchorEl, menuId, setAnchorEl, isMenuOpen }
         >
             <MenuItem onClick={handleAccountPage} >
                 <ListItemIcon>
-                    <AccountCircle />
+                    <AccountCircle color="primary" />
                 </ListItemIcon>
                 <ListItemText>My account</ListItemText>
             </MenuItem>
             <MenuItem onClick={handleLogOut}>
                 <ListItemIcon>
-                    <Logout />
+                    <Logout color="error"/>
                 </ListItemIcon>
                 <ListItemText>Logoff</ListItemText>
             </MenuItem>

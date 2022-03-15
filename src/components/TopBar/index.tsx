@@ -105,7 +105,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" enableColorOnDark color="secondary" open={open}>
+            <AppBar position="fixed" enableColorOnDark color="primary" open={open}>
                 <Toolbar>
                     <IconButton
                         size="large"

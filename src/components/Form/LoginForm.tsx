@@ -13,7 +13,7 @@ export function LoginForm({ handleSubmit, handleChangeForm, handlePasswordRecove
     return (
         <>
             <SignSignUpFormHeader labelText="Sign in" />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                     color='primary'
                     margin="normal"
