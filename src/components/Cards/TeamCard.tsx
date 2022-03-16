@@ -1,9 +1,9 @@
-import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, styled, Tab, Tabs, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Divider, Grid, IconButton, List, ListItem, ListItemText, styled, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
 import validator from 'validator';
 
-import FolderIcon from '@mui/icons-material/Folder';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 
@@ -25,10 +25,10 @@ type TeamCardProps = {
 }
 
 export function TeamCard({ user }: TeamCardProps) {
-    const icon = <Button sx={ { display: 'contents' } } onClick={handleAddEmail}><AddCircleIcon /></Button>;
-    const [ emailsList, setEmailsList ] = useState<string[]>([]);
-    const [ email, setEmail ] = useState('');
-    const [ error, setError ] = useState(false);
+    const icon = <Button sx={{ display: 'contents' }} onClick={handleAddEmail}><AddCircleIcon /></Button>;
+    const [emailsList, setEmailsList] = useState<string[]>([]);
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState(false);
 
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
@@ -47,12 +47,16 @@ export function TeamCard({ user }: TeamCardProps) {
         setError(true);
     }
 
-    function handleRemoveEmailFromList(email: string) {       
-        setEmailsList(emailsList.filter( emailItem => emailItem !== email));
+    function handleRemoveEmailFromList(email: string) {
+        setEmailsList(emailsList.filter(emailItem => emailItem !== email));
+    }
+
+    function copyRoomCodeToClipboard() {
+        navigator.clipboard.writeText('localhos:8080/invite/team/1')
     }
 
     return (
-        <Card sx={{ marginTop: 3 }}>
+        <Card sx={{ marginTop: 1 }}>
             <CardContent>
                 <Grid container spacing={1} sx={{
                     display: 'flex',
@@ -63,6 +67,14 @@ export function TeamCard({ user }: TeamCardProps) {
                     <Grid item>
                         <Typography variant="h6" component="span">Invite members</Typography>
                         <Typography variant="body2" component="p">Send the invite link for a member to join to your team.</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="outlined" size="medium" startIcon={ <ContentCopyIcon /> }  sx={{
+                            width: '35%',
+                            textTransform: 'none',
+                        }} onClick={copyRoomCodeToClipboard}>
+                            localhos:8080/invite/team/1
+                        </Button>
                     </Grid>
                     <Divider>Or</Divider>
                     <Grid item >
@@ -77,14 +89,14 @@ export function TeamCard({ user }: TeamCardProps) {
                         }}>
                             <Grid md={10} sm={8} xs={12}>
                                 <StyledTextField type="email" size="small" id="email" placeholder="Add multiple addresses separated by commas" label="Email address" color="primary" variant="outlined" fullWidth
-                                    onChange={ event => setEmail(event.target.value) }
+                                    onChange={event => setEmail(event.target.value)}
                                     error={error}
-                                    helperText={ error && email && 'Enter a valid email.'}
+                                    helperText={error && email && 'Enter a valid email.'}
                                     InputProps={{
                                         endAdornment: icon
                                     }} />
                             </Grid>
-                            <Grid md={2} sm={4} xs={12} sx={{ 
+                            <Grid md={2} sm={4} xs={12} sx={{
                                 paddingTop: smDown ? 2 : 0
                             }}>
                                 <Button variant="contained" size="medium" sx={{ backgroundColor: 'primary.light' }} endIcon={<SendIcon />}>Enviar</Button>
@@ -96,7 +108,7 @@ export function TeamCard({ user }: TeamCardProps) {
                             {
                                 emailsList.map(email => {
                                     return (<ListItem sx={{
-                                        paddingLeft: 1 
+                                        paddingLeft: 1
                                     }}
                                         secondaryAction={
                                             <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveEmailFromList(email)}>

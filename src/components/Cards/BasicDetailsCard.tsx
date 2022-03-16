@@ -12,7 +12,7 @@ export function BasicDetailsCard() {
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ minWidth: 275, marginTop: 1 }}>
             <CardContent>
                 <Grid container spacing={1}>
                     <Grid item xs={12} lg={3} md={4} sx={{ marginTop: 2, }}>
@@ -21,7 +21,7 @@ export function BasicDetailsCard() {
                     <Grid xs={12} container direction="row"
                         justifyContent="space-evenly"
                         alignItems="stretch"
-                        lg={9} md={8} sx={{ paddingLeft: smDown ? 1 : 5, paddingRight: smDown ? 1 : 10, minHeight: 300 }}>
+                        lg={9} md={8} sx={{ paddingLeft: smDown ? 1 : 5, paddingRight: smDown ? 1 : 10, minHeight: 300 }} item>
                         <Grid item xs={12} sx={{ marginTop: 2, }}>
                             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Avatar alt={user?.name} src={user?.avatar} sx={{ width: '4em', height: '4em' }} />

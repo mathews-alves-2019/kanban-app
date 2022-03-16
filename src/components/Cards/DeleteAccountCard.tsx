@@ -23,7 +23,7 @@ export function DeleteAccountCard() {
                         <Typography variant="h6" component="span">Delete account</Typography>
                     </Grid>
                     <Grid xs={12} container
-                        lg={9} md={8} sx={{ paddingLeft: smDown ? 1 : 5, marginTop: 3.5, paddingRight: smDown ? 3 : 12, }}>
+                        lg={9} md={8} sx={{ paddingLeft: smDown ? 1 : 5, marginTop: 3.5, paddingRight: smDown ? 3 : 12, }} item>
                         <Typography variant="subtitle2" gutterBottom component="div">Delete your account and all of your source data. This is irreversible.</Typography>
                     </Grid>
                 </Grid>

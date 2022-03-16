@@ -1,10 +1,8 @@
-import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Tab, Tabs, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import { useState } from "react";
 import { styled } from '@mui/material/styles';
 import { useAuth } from "../hooks/useAuth";
-import { BasicDetailsCard } from "../components/Cards/BasicDetailsCard";
-import { DeleteAccountCard } from "../components/Cards";
-import { TeamCard } from "../components/Cards/TeamCard";
+import { TeamCard, DeleteAccountCard, BasicDetailsCard, NotificationCard } from "../components/Cards/";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -87,7 +85,7 @@ export function Account() {
                     <TeamCard />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Item Three
+                    <NotificationCard/>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     Item four
