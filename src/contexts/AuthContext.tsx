@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import { auth, firebase } from '../services/firebase';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLoading } from '../hooks/useLoading';
+import UserService from '../services/UserService';
 
 
 export const AuthContext = createContext({} as AuthContextRype);
@@ -11,14 +12,18 @@ type User = {
     name: string;
     avatar: string;
     email: string | null;
-    isLoggedByGoogle: boolean;
-    position: string
+    isProvided: boolean;
+    position: string;
+    expiresAt: any;
+    profile: any;
+    notifications: any;
 }
 
 type AuthContextRype = {
     user: User | undefined;
     signInWithGoogle: () => Promise<void>;
     logout: () => Promise<void>;
+    setUserNotification: (value: any) => void;
 }
 
 type AuthContextProviderProps = {
@@ -33,7 +38,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const location = useLocation();
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = auth.onAuthStateChanged(async user => {
             showLoading();
             if (user) {
                 const { displayName, photoURL, uid, email } = user;
@@ -42,14 +47,20 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                     throw new Error('Missing information from google account.');
                 }
 
+                const fetchedUser = await UserService.create(user);
+
                 setUser({
                     id: uid,
                     name: displayName,
                     avatar: photoURL,
                     email: email,
-                    isLoggedByGoogle: true,
-                    position: 'Desenvolvedor'
+                    isProvided: fetchedUser.data.data.isProvided,
+                    position: fetchedUser.data.data.position,
+                    expiresAt: fetchedUser.data.data.expires_at,
+                    profile: fetchedUser.data.data.profile,
+                    notifications: fetchedUser.data.data.notifications
                 });
+
                 navigate(location.pathname === '/login' ? '/' : location.pathname);
             } else {
                 navigate('/login');
@@ -57,8 +68,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             setTimeout(() => {
                 hideLoading();
             }, 500);
-        })
 
+        });
+        
         return () => {
             unsubscribe();
         }
@@ -89,19 +101,28 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 throw new Error('Missing information from google account.');
             }
 
+            const fetchedUser = await UserService.create(result.user)
+
             setUser({
                 id: uid,
                 name: displayName,
                 avatar: photoURL,
                 email: email,
-                isLoggedByGoogle: true,
-                position: 'Desenvolvedor'
-            })
+                isProvided: fetchedUser.data.data.isProvided,
+                position: fetchedUser.data.data.position,
+                expiresAt: fetchedUser.data.data.expires_at,
+                profile: fetchedUser.data.data.profile,
+                notifications: fetchedUser.data.data.notifications
+            });
         }
     }
 
+    function setUserNotification(notification: any){
+        setUser(Object.assign({}, user, {notifications: notification}));
+    }
+
     return (
-        <AuthContext.Provider value={{ user, signInWithGoogle, logout }}>
+        <AuthContext.Provider value={{ user, signInWithGoogle, logout, setUserNotification }}>
             {props.children}
         </AuthContext.Provider>
     );
