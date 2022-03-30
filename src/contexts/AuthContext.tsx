@@ -17,6 +17,7 @@ type User = {
     expiresAt: any;
     profile: any;
     notifications: any;
+    userSquads: any;
 }
 
 type AuthContextRype = {
@@ -58,7 +59,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                     position: fetchedUser.data.data.position,
                     expiresAt: fetchedUser.data.data.expires_at,
                     profile: fetchedUser.data.data.profile,
-                    notifications: fetchedUser.data.data.notifications
+                    notifications: fetchedUser.data.data.notifications,
+                    userSquads: fetchedUser.data.data.userSquads
                 });
 
                 navigate(location.pathname === '/login' ? '/' : location.pathname);
@@ -112,7 +114,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 position: fetchedUser.data.data.position,
                 expiresAt: fetchedUser.data.data.expires_at,
                 profile: fetchedUser.data.data.profile,
-                notifications: fetchedUser.data.data.notifications
+                notifications: fetchedUser.data.data.notifications,
+                userSquads: fetchedUser.data.data.userSquads
             });
         }
     }

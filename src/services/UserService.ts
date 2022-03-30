@@ -42,6 +42,14 @@ type UserType = {
             receiveInvites: boolean,
             receiveSprintAlerts: boolean,
             id: string
+        },
+        userSquads: {
+            selectedLastTime: boolean,
+            id: string,
+            name: string,
+            active: boolean,
+            urlImage: string,
+            isPrivate: boolean
         }
     }
 }
