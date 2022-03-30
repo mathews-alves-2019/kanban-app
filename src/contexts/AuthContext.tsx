@@ -25,6 +25,7 @@ type AuthContextRype = {
     signInWithGoogle: () => Promise<void>;
     logout: () => Promise<void>;
     setUserNotification: (value: any) => void;
+    updateUser: () => void;
 }
 
 type AuthContextProviderProps = {
@@ -72,7 +73,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             }, 500);
 
         });
-        
+
         return () => {
             unsubscribe();
         }
@@ -120,12 +121,28 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         }
     }
 
-    function setUserNotification(notification: any){
-        setUser(Object.assign({}, user, {notifications: notification}));
+    async function updateUser() {
+
+        const fetchedUser = await UserService.getUser(user!.id);
+        setUser(Object.assign({}, user, {
+            isProvided: fetchedUser.data.data.isProvided,
+            position: fetchedUser.data.data.position,
+            expiresAt: fetchedUser.data.data.expires_at,
+            profile: fetchedUser.data.data.profile,
+            notifications: fetchedUser.data.data.notifications,
+            userSquads: fetchedUser.data.data.userSquads
+        }));
+
+        navigate(location.pathname === '/login' ? '/' : location.pathname);
+    }
+
+
+    function setUserNotification(notification: any) {
+        setUser(Object.assign({}, user, { notifications: notification }));
     }
 
     return (
-        <AuthContext.Provider value={{ user, signInWithGoogle, logout, setUserNotification }}>
+        <AuthContext.Provider value={{ user, signInWithGoogle, logout, setUserNotification, updateUser }}>
             {props.children}
         </AuthContext.Provider>
     );

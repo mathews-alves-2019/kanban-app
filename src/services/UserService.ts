@@ -66,6 +66,10 @@ class UserService {
         });
     }
 
+    async getUser(userId: string) {
+        return await http.get<UserType>(`/${userId}`, {});
+    }
+
     async updateReceiveOption(value: boolean, user: any, field: string) {
         return await http.put<UserType>(`/notification/invites/${user.id}`, {
             receiveInvites: value,

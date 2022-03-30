@@ -14,7 +14,7 @@ export function BasicDetailsCard() {
     return (
         <Card sx={{ minWidth: 275, marginTop: 1 }}>
             <CardContent>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} >
                     <Grid item xs={12} lg={3} md={4} sx={{ marginTop: 2, }}>
                         <Typography variant="h6" component="span">Basic details</Typography>
                     </Grid>

@@ -55,10 +55,6 @@ export function NotificationCard() {
         });
     }
 
-    useEffect(() => {
-        console.log(user)
-    }, [user]);
-
     return (
         <Card sx={{ marginTop: 1 }}>
             <CardContent>

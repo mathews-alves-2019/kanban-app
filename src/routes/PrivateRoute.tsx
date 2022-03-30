@@ -1,10 +1,12 @@
 import { Box, Container, Grid, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { FacebookCircularProgress } from '../components/CircularProgress';
 import { SideBar } from '../components/Drawer';
 import { TopBar } from '../components/TopBar';
 import { SideBarContext } from '../contexts';
 import { useAuth } from '../hooks/useAuth';
+import { useLoading } from '../hooks/useLoading';
 
 export function PrivateRoute() {
     const { user } = useAuth();
@@ -13,7 +15,8 @@ export function PrivateRoute() {
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
     const wrapperRef = useRef(null);
     const mdDown = useMediaQuery(theme.breakpoints.down('md'));
-    
+    const { loading } = useLoading();
+
     const handleClickOutside = (event: Event, ref: any, isSmDown: boolean) => {
         if (ref.current && !ref.current.contains(event.target) && open && isSmDown) {
             setOpen(false);
@@ -37,26 +40,42 @@ export function PrivateRoute() {
     };
 
     return user ? (
-        <Box sx={{ display: 'flex' }}>
-            <SideBarContext>
-                <TopBar open={open} handleDrawerOpen={handleDrawerOpen} smDown={smDown} mdDown={mdDown} />
-                <SideBar open={open} handleDrawerClose={handleDrawerClose} wrapperRef={wrapperRef} />
-                <Box component="main"
-                    sx={{
-                        flexGrow: 1,
-                        height: '100vh',
-                        width: '100vw',
-                        overflow: 'auto',
-                    }} >
-                    <Toolbar />
-                    <Container >
-                        <Grid container spacing={1} sx={{ width: '100%', height: '100%', mt: '10px', ml: '10px' }}>
-                            <Outlet />
-                        </Grid>
+        <>
+            {loading ?
+                (
+                    <Container component="main" maxWidth="xs">
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <FacebookCircularProgress size={100} />
+                        </Box>
                     </Container>
-                </Box>
-            </SideBarContext>
+                )
+                : <Box sx={{ display: 'flex' }}>
+                    <SideBarContext>
+                        <TopBar open={open} handleDrawerOpen={handleDrawerOpen} smDown={smDown} mdDown={mdDown} />
+                        <SideBar open={open} handleDrawerClose={handleDrawerClose} wrapperRef={wrapperRef} />
+                        <Box component="main"
+                            sx={{
+                                flexGrow: 1,
+                                height: '100vh',
+                                width: '100vw',
+                                overflow: 'auto',
+                            }} >
+                            <Toolbar />
+                            <Container >
+                                <Grid container spacing={1} sx={{ width: '100%', height: '100%', mt: '10px', ml: '10px' }}>
+                                    <Outlet />
+                                </Grid>
+                            </Container>
+                        </Box>
+                    </SideBarContext>
 
-        </Box >
+                </Box >}
+        </>
     ) : <Navigate to="/login" />;
 }
