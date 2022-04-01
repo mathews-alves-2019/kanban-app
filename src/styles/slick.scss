@@ -1,0 +1,68 @@
+.slick-slider {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+  
+.slick-slider:hover {
+  
+    
+  .custom-prevArrow {
+    left: -10px;
+  }
+  .custom-nextArrow {
+    right: -10px;
+  }
+
+  .custom-prevArrow,
+  .custom-nextArrow {
+    opacity: 0.9;
+  }
+}
+
+.custom-prevArrow,
+.custom-nextArrow {
+  display: flex !important;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.custom-prevArrow,
+.custom-nextArrow {
+  position: relative;
+  z-index: 99999;
+  top: -10px;
+  opacity: 0; 
+  height: 37px;
+  width: 50px;
+  padding: 0;
+  border-radius: 50px;
+  box-shadow: 0 0.313rem 0.8rem rgba(122, 123, 151, 0.50), 0 0.126rem 0.225rem rgba(122, 123, 151, 0.30);
+  background: #fff;
+  z-index: 6;
+  overflow: hidden;
+  transition: all .2s ease-in-out;
+  -moz-transition: all .25s ease-in-out; 
+  -webkit-transition: all .25s ease-in-out; 
+  background: #fff;
+  color: #3f51b5;
+}
+.custom-prevArrow {
+  left: -40px;
+}
+  
+.custom-nextArrow {
+  right: -40px;
+}
+
+.custom-prevArrow:hover,
+.custom-nextArrow:hover {
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background: #3f51b5;
+}

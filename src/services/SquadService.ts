@@ -30,5 +30,11 @@ class SquadService {
     async updateSelectedSquad(squadId: string) {
         return await http.put<SquadType>(`/selected/${squadId}`, {});
     }
+
+    async updateActiveStatus(squadId: string, isActive: boolean) {
+        return await http.put<SquadType>(`/updateActiveStatus/${squadId}`, {
+            active: isActive
+        });
+    }
 }
 export default new SquadService();
