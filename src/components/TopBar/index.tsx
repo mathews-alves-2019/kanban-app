@@ -96,7 +96,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
-    const { user }= useAuth();
+    const { user } = useAuth();
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -156,7 +156,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <Avatar alt={ user?.name } src={user?.avatar} sx={{ width: '1.7em', height: '1.7em' }}/>
+                            <Avatar alt={user?.name} src={user?.avatar} sx={{ width: '1.7em', height: '1.7em' }} />
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }} >
@@ -179,7 +179,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
                                 aria-haspopup="true"
                                 color="inherit"
                             >
-                                <Avatar alt={ user?.name } src={user?.avatar} />
+                                <Avatar alt={user?.name} src={user?.avatar} />
                             </IconButton>
                         </MenuItem>
                     </Box>

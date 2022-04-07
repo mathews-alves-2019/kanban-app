@@ -1,5 +1,6 @@
 import axios from "axios";
-import { User } from '@firebase/auth-types';
+import { SquadTypeResponse, SquadType } from "../types/SquadType";
+import { SquadMemberType } from "../types/SquadMemberType";
 
 const http = axios.create({
     baseURL: "http://localhost:8080/api/squads",
@@ -8,31 +9,39 @@ const http = axios.create({
     }
 });
 
-type SquadType = {
-    selectedLastTime: boolean,
-    id: string,
-    name: string,
-    active: boolean,
-    urlImage: string,
-    isPrivate: boolean
-}
-
 class SquadService {
 
     async create(squad: SquadType) {
-        return await http.post<SquadType>("/permission", {
+        return await http.post<SquadTypeResponse>(`/`, {
             name: squad.name,
             active: squad.active,
             isPrivate: squad.isPrivate,
+            urlImage: squad.urlImage
+        });
+    }
+
+    async addMemberOnSquad(squadMember: SquadMemberType) {
+        return await http.post<SquadTypeResponse>(`/addMember/`, {
+            usersId: squadMember.usersId,
+            squadsId: squadMember.squadsId,
+            active: squadMember.active,
+            position: squadMember.position,
+            canCreateBoard: squadMember.canCreateBoard,
+            canCreateCard: squadMember.canCreateCard,
+            canEditBoard: squadMember.canEditBoard,
+            canEditSquad: squadMember.canEditSquad,
+            canDeleteBoard: squadMember.canDeleteBoard,
+            canDeleteCard: squadMember.canDeleteCard,
+            canEditCard: squadMember.canEditCard
         });
     }
 
     async updateSelectedSquad(squadId: string) {
-        return await http.put<SquadType>(`/selected/${squadId}`, {});
+        return await http.put<SquadTypeResponse>(`/selected/${squadId}`, {});
     }
 
     async updateActiveStatus(squadId: string, isActive: boolean) {
-        return await http.put<SquadType>(`/updateActiveStatus/${squadId}`, {
+        return await http.put<SquadTypeResponse>(`/updateActiveStatus/${squadId}`, {
             active: isActive
         });
     }

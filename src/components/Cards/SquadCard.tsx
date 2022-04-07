@@ -4,14 +4,16 @@ import SplitscreenIcon from '@mui/icons-material/Splitscreen';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 type SquadCard = {
     name: string,
     squadId: string,
     handleDelete: (squadId: string) => void,
+    urlImage: string;
 }
 
-export default function SquadCard({ name, handleDelete, squadId }: SquadCard) {
+export default function SquadCard({ name, handleDelete, squadId, urlImage }: SquadCard) {
     return (
         <Grid item sx={{
             marginBottom: '20px',
@@ -19,7 +21,7 @@ export default function SquadCard({ name, handleDelete, squadId }: SquadCard) {
             <Card sx={{ width: 300, height: 300}}>
                 <CardMedia sx={{ minWidth: 300, height: 130 }}
                     component="img"
-                    image='https://source.unsplash.com/random'
+                    image={urlImage}
                     alt="squad image"
                 />
                 <CardContent sx={{
@@ -45,6 +47,9 @@ export default function SquadCard({ name, handleDelete, squadId }: SquadCard) {
                     </IconButton>
                     <IconButton aria-label="Reports" color="primary" size="medium">
                         <AssessmentIcon />
+                    </IconButton>
+                    <IconButton aria-label="Settings" color="primary" size="medium" >
+                        <SettingsIcon />
                     </IconButton>
                     <IconButton aria-label="Delete" color="error" size="medium" onClick={() => handleDelete(squadId)}>
                         <DeleteIcon />

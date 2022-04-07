@@ -68,7 +68,7 @@ export default function SelectSquadItem({ open }: SelectSquadItemProps) {
                                 </Typography>
                                 <Typography variant="body2" gutterBottom component="p">
                                     {
-                                        user?.userSquads.filter((squad: any) => {
+                                        user?.userSquads?.filter((squad: any) => {
                                             return squad.selectedLastTime === true;
                                         })[0].name
                                     }
@@ -119,7 +119,7 @@ export default function SelectSquadItem({ open }: SelectSquadItemProps) {
                     onClose={handleMenuClose}
 
                 >
-                    {user?.userSquads.map((squad: any) => {
+                    {user?.userSquads?.map((squad: any) => {
                         return (
                             <MenuItem onClick={() => updateSelectedSquad(squad)}>
                                 <ListItemIcon>

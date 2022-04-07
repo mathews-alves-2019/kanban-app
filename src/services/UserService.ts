@@ -67,7 +67,7 @@ class UserService {
     }
 
     async getUser(userId: string) {
-        return await http.get<UserType>(`/${userId}`, {});
+        return await http.get<UserType>(`/withSquads/${userId}`, {});
     }
 
     async updateReceiveOption(value: boolean, user: any, field: string) {
