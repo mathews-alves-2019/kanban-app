@@ -11,7 +11,15 @@ export interface SquadTypeResponse {
 
 export interface SquadType {
     selectedLastTime?: boolean;
-    id?: string;
+    id: string;
+    name: string;
+    active: boolean;
+    urlImage: string;
+    isPrivate: boolean;
+}
+
+export interface SquadTypeForSubmit {
+    selectedLastTime?: boolean;
     name: string;
     active: boolean;
     urlImage: string;

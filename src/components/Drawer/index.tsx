@@ -3,7 +3,7 @@ import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Divider, List,ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Divider, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSideBar } from '../../hooks/useSideBar';
 import SelectSquadItem from '../ListItem/SelectSquadItem';

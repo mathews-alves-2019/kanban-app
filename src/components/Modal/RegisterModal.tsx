@@ -3,15 +3,20 @@ import { Backdrop, Box, Button, CircularProgress, DialogTitle, Divider, FormCont
 import SquadRegisterModal from "./Modal";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { storage } from "../../services/firebase";
+import { SquadModelType } from "../../types/SquadModelType";
 
 type SquadRegisterModalType = {
     isOpen: boolean,
     wrapperRef: React.MutableRefObject<null>,
     handleClose: () => void,
     handleSubmit: (object: any) => void,
-    isRequesting: boolean
+    isRequesting: boolean,
+    formValues: SquadModelType,
+    setFormValues: (value: any) => void,
+    isUpdate: boolean,
+    handleUpdate: (squad: any) => void
 }
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -23,19 +28,15 @@ const Input = styled("input")({
     display: "none",
 });
 
-const defaultValues = {
-    name: "",
-    urlImage: "",
-    isPrivate: false,
-};
-
-export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleSubmit, isRequesting }: SquadRegisterModalType) {
+export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleSubmit, isRequesting, formValues, setFormValues, isUpdate, handleUpdate }: SquadRegisterModalType) {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
-
-    const [formValues, setFormValues] = useState(defaultValues);
     const [imageName, setImageName] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
+
+    useEffect(() => {
+        setImageName(null)
+    }, [isOpen]);
 
     function handleChange(e: any) {
         const { name, value } = e.target;
@@ -51,7 +52,7 @@ export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleS
             ...formValues,
             isPrivate: checked,
         });
-    }    
+    }
 
     async function uploadImage(e: any) {
         setImageName(null);
@@ -62,8 +63,6 @@ export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleS
             urlImage = await (await storage.ref(`/images/${image.name}`).put(image)).ref.getDownloadURL();
             setImageName(image.name);
         }
-
-        console.log(urlImage);
 
         setFormValues({
             ...formValues,
@@ -76,7 +75,7 @@ export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleS
     return (
         <>
             <Backdrop
-                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.modal + 1 }}
                 open={isRequesting}
             >
                 <CircularProgress color="inherit" />
@@ -120,7 +119,7 @@ export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleS
                         width: "100%"
                     }}>
                         <Grid item sx={{ width: smDown ? "100%" : "80%", display: "flex", justifyContent: "center", minHeight: "60px" }}>
-                            <StyledTextField id="squad-name" label="Name" color="primary" variant="outlined" name="name" type="text" value={formValues.name} onChange={handleChange} />
+                            <StyledTextField id="squad-name" autoComplete='off' label="Name" color="primary" variant="outlined" name="name" type="text" value={formValues.name} onChange={handleChange} disabled={isUploading}/>
                         </Grid>
                         <Grid item sx={{ minWidth: "100%", display: "block", justifyContent: "center", minHeight: "60px", }}>
 
@@ -198,9 +197,9 @@ export default function RegisterModal({ isOpen, wrapperRef, handleClose, handleS
                                 </Grid>
                             </label>
                         </Grid>
-                        <FormControlLabel control={<Switch checked={formValues.isPrivate}
+                        <FormControlLabel control={<Switch checked={formValues.isPrivate} disabled={isUploading}
                             onChange={(event) => handleSwitchChange(event)} />} label="Private" sx={{ marginTop: "10px" }} />
-                        <Button variant="contained" sx={{ marginTop: "10px", width: smDown ? "100%" : "80%", textTransform: "none" }} onClick={() => handleSubmit(formValues)}>
+                        <Button variant="contained" sx={{ marginTop: "10px", width: smDown ? "100%" : "80%", textTransform: "none" }} onClick={() => isUpdate ? handleUpdate(formValues) : handleSubmit(formValues)}>
                             Save
                         </Button>
                     </Grid>

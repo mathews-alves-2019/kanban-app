@@ -54,6 +54,7 @@ export default function SquadRegisterModal({ isOpen, wrapperRef, handleClose, ch
         borderRadius: '9px',
         boxShadow: 24,
         p: 4,
+        maxHeight: '90vh',
     };
 
     return (

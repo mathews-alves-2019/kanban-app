@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SquadTypeResponse, SquadType } from "../types/SquadType";
+import { SquadTypeResponse, SquadType, SquadTypeForSubmit } from "../types/SquadType";
 import { SquadMemberType } from "../types/SquadMemberType";
 
 const http = axios.create({
@@ -9,10 +9,46 @@ const http = axios.create({
     }
 });
 
+type SquadMembersType = {
+    usersId: string,
+    squads: any,
+    users: {
+        id: string,
+        name: string,
+        email: string,
+        password: string,
+        position: string,
+        avatarImage: string,
+        active: boolean,
+        isProvided: boolean,
+        providedId: string,
+        created_at: Date,
+        expires_at: Date | null,
+        profile: any,
+        notifications: any
+    }
+}
+
 class SquadService {
 
-    async create(squad: SquadType) {
+    async create(squad: SquadTypeForSubmit) {
         return await http.post<SquadTypeResponse>(`/`, {
+            name: squad.name,
+            active: squad.active,
+            isPrivate: squad.isPrivate,
+            urlImage: squad.urlImage
+        });
+    }
+
+    async getSquadMembers(squadId: string) {
+        console.log('sdasdkj')
+        return await http.get<SquadMembersType>(`/${squadId}/members`, {
+        });
+    }
+
+    async update(squad: SquadTypeForSubmit, squadId: string) {
+        return await http.put<SquadTypeResponse>(`/`, {
+            id: squadId,
             name: squad.name,
             active: squad.active,
             isPrivate: squad.isPrivate,

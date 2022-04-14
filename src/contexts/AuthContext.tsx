@@ -50,7 +50,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 }
 
                 const fetchedUser = await UserService.create(user);
-
                 setUser({
                     id: uid,
                     name: displayName,

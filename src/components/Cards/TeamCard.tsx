@@ -58,8 +58,6 @@ export function TeamCard() {
     }
 
     const handleChange = (object: ObjectInvite, event: SelectChangeEvent) => {
-        console.log(object)
-        console.log(event.target.value)
         setObjectInviteList([...objectInviteList].map(stateObject => {
             if (stateObject.email === object.email) {
                 return {

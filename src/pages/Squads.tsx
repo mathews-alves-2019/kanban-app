@@ -13,7 +13,9 @@ import "../styles/slick.scss";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import RegisterModal from "../components/Modal/RegisterModal";
-import { SquadType } from "../types/SquadType";
+import { SquadType, SquadTypeForSubmit } from "../types/SquadType";
+import { SquadModelType } from "../types/SquadModelType";
+import MembersSquadModal from "../components/Modal/MembersSquadModal";
 
 const PrevArrow = ({ currentSlide, slideCount, ...props }: any) => {
     const { onClick } = props;
@@ -35,15 +37,29 @@ const NextArrow = ({ currentSlide, slideCount, ...props }: any) => {
     );
 };
 
+const defaultValues = {
+    id: "",
+    name: "",
+    urlImage: "",
+    isPrivate: false,
+};
+
 export function Squads() {
     const { user, updateUser } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [formValues, setFormValues] = useState<SquadModelType>(defaultValues);
+    const [squad, setSquad] = useState<SquadType | null>(null);
     const wrapperRef = useRef(null);
 
     const [isRequesting, setIsRequesting] = useState(false);
 
-    const handleClose = () => setIsOpen(false);
+    const handleClose = () => {
+        setIsOpen(false);
+        setIsMembersModalOpen(false);
+    }
 
     const settings = {
         nextArrow: <NextArrow />,
@@ -74,6 +90,23 @@ export function Squads() {
         ]
     };
 
+    function openModalForUpdate(squad: SquadType) {
+        setFormValues({
+            id: squad.id,
+            name: squad.name,
+            urlImage: squad.urlImage,
+            isPrivate: squad.isPrivate,
+        });
+        setIsUpdate(true);
+        setIsOpen(true);
+    }
+
+    function openModalForAdd() {
+        setFormValues(defaultValues);
+        setIsUpdate(false);
+        setIsOpen(true);
+    }
+
     async function handleDelete(squadId: string) {
         Swal.fire({
             title: "Are you sure?",
@@ -99,17 +132,31 @@ export function Squads() {
         })
     }
 
+    async function handleUpdate(squad: SquadType) {
+        setIsRequesting(true);
+        await SquadService.update(squad, squad.id).then(async () => {
+            await updateUser();
+            Swal.fire(
+                "Updated!",
+                "Your squad has been updated.",
+                "success"
+            );
+            setIsOpen(false);
+            setIsRequesting(false);
+            setIsUpdate(false);
+        });
+        setFormValues(defaultValues);
+    }
+
     async function handleSubmit(formValues: any) {
         setIsRequesting(true);
-        const squad: SquadType = {
+        const squad: SquadTypeForSubmit = {
             name: formValues.name,
             active: true,
             urlImage: formValues.urlImage,
             isPrivate: formValues.isPrivate
         }
         await SquadService.create(squad).then(async (squadCreated) => {
-            console.log(squadCreated)
-            console.log(squadCreated!.data.data.id)
             if (squadCreated!.data.data.id)
                 await SquadService.addMemberOnSquad({
                     usersId: user!.id,
@@ -140,6 +187,13 @@ export function Squads() {
             console.error(error);
             setIsRequesting(false);
         });
+
+        setFormValues(defaultValues);
+    }
+
+    function handleOpenMembersModal(squad: SquadType) {
+        setSquad(squad);
+        setIsMembersModalOpen(true);
     }
 
     return (
@@ -178,7 +232,7 @@ export function Squads() {
                                     </Typography>
                                 </Grid>
                                 <Grid item sx={{ paddingRight: "30px" }}>
-                                    <Button variant="outlined" startIcon={<AddIcon />} onClick={() => setIsOpen(true)}>
+                                    <Button variant="outlined" startIcon={<AddIcon />} onClick={() => openModalForAdd()}>
                                         Add
                                     </Button>
                                 </Grid>
@@ -190,7 +244,7 @@ export function Squads() {
                                         {
                                             user?.userSquads?.map((squad: any) => {
                                                 return (
-                                                    <SquadCard name={squad.name} handleDelete={handleDelete} squadId={squad.id} urlImage={squad.urlImage} />
+                                                    <SquadCard handleDelete={handleDelete} squad={squad} openModalForUpdate={openModalForUpdate} handleOpenMembersModal={handleOpenMembersModal}/>
                                                 )
                                             })
                                         }
@@ -201,7 +255,8 @@ export function Squads() {
                     </Grid>
                 </Box>
             </Card>
-            <RegisterModal isOpen={isOpen} wrapperRef={wrapperRef} handleClose={handleClose} handleSubmit={handleSubmit} isRequesting={isRequesting} />
+            <RegisterModal isOpen={isOpen} isUpdate={isUpdate} wrapperRef={wrapperRef} handleClose={handleClose} handleSubmit={handleSubmit} handleUpdate={handleUpdate} isRequesting={isRequesting} formValues={formValues} setFormValues={setFormValues} />
+            <MembersSquadModal squad={squad} isOpen={isMembersModalOpen} wrapperRef={wrapperRef} handleClose={handleClose}/>
         </>
     );
 }

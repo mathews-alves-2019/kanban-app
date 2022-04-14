@@ -59,12 +59,12 @@ export default function SelectSquadItem({ open }: SelectSquadItemProps) {
                         backgroundColor: 'rgba(255, 255, 255, 0.04)',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        padding: '11px 24px'
+                        padding: '11px'
                     }}>
                         <ListItemText sx={{ opacity: open ? 1 : 0, marginRight: '30px', marginLeft: '10px' }} >
                             <div>
                                 <Typography variant="subtitle1" gutterBottom component="h3">
-                                    Squads
+                                    Squad
                                 </Typography>
                                 <Typography variant="body2" gutterBottom component="p">
                                     {

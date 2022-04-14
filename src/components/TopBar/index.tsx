@@ -123,7 +123,7 @@ export function TopBar({ handleDrawerOpen, open, smDown, mdDown }: TopBarProps) 
                         component="div"
                         sx={{ display: mdDown ? 'none' : { xs: 'none', sm: 'contents' }, }}
                     >
-                        icone aqui
+                        
                     </Typography>
                     <div style={{ display: (smDown || mdDown) && open ? 'none' : 'flex', justifyContent: 'center', width: '70%', }}>
                         <Search>

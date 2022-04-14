@@ -54,7 +54,7 @@ export function Login() {
 
     return (
         <>
-            { loading ? (
+            {loading ? (
                 <Container component="main" maxWidth="xs">
                     <Box
                         sx={{
@@ -63,7 +63,15 @@ export function Login() {
                             alignItems: 'center',
                         }}
                     >
-                        <FacebookCircularProgress size={100}/>
+                        <FacebookCircularProgress size={100} sx={{
+                            position: 'relative',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100vw',
+                            height: '100vh'
+                        }} />
                     </Box>
                 </Container>
             )

@@ -51,7 +51,15 @@ export function PrivateRoute() {
                                 alignItems: 'center',
                             }}
                         >
-                            <FacebookCircularProgress size={100} />
+                            <FacebookCircularProgress size={100} sx={{
+                                position: 'relative',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100vw',
+                                height: '100vh'
+                            }} />
                         </Box>
                     </Container>
                 )
